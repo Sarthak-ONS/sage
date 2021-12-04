@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "668203755291",
+    "project_id": "sova-1dba6",
+    "storage_bucket": "sova-1dba6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:668203755291:android:0d88b4c5e63ae4702215be",
+        "android_client_info": {
+          "package_name": "com.sarthak.sage"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "668203755291-5v9jtpeltt8tdgpu84dqb954sh5bnkrh.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.sarthak.sage",
+            "certificate_hash": "279d5a715089da5d7c8371946b81b1e45c498655"
+          }
+        },
+        {
+          "client_id": "668203755291-9aumv8lvoe66jcui9h8iunh9e0fsl03i.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBoAOA3zZZEVc1buFDNEWTRW8tbUdZdIcY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "668203755291-9aumv8lvoe66jcui9h8iunh9e0fsl03i.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
