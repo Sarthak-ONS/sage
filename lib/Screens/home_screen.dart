@@ -14,33 +14,35 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            print(
+                Provider.of<GoogleAuthpProvider>(context, listen: false).name);
+          },
+        ),
         backgroundColor: Colors.black,
         appBar: AppBar(
-          leading: Image.asset(
+          title: Image.asset(
             "Assets/logo.png",
+            height: 45,
+            width: 45,
             scale: 0.5,
           ),
-          title: const Text(
-            'Sage',
-            style: TextStyle(
-              fontSize: 25,
-            ),
-          ),
-          centerTitle: true,
+          centerTitle: false,
           backgroundColor: Colors.black,
           actions: [
-            // Padding(
-            //   padding: const EdgeInsets.all(8.0),
-            //   child: CircleAvatar(
-            //     radius: 20,
-            //     foregroundImage: NetworkImage(
-            //       Provider.of<GoogleAuthpProvider>(context).user.photoUrl!,
-            //     ),
-            //   ),
-            // )
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: CircleAvatar(
+                radius: 15,
+                foregroundImage: NetworkImage(
+                  Provider.of<GoogleAuthpProvider>(context).photoUrl!,
+                ),
+              ),
+            )
           ],
         ),
-        endDrawer: Drawer(
+        endDrawer: const Drawer(
           elevation: 20,
         ),
         body: Column(

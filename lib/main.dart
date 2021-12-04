@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sage/Providers/google_auth_provider.dart';
 import 'package:sage/Providers/user_details.dart';
+import 'package:sage/Services/firebase_firestore_api.dart';
 
 import 'Screens/home_login_screen.dart';
 
@@ -25,6 +26,9 @@ class MyApp extends StatelessWidget {
         ),
         Provider(
           create: (context) => GoogleAuthpProvider(),
+        ),
+        Provider(
+          create: (context) => FirebaseFireStoreProvider(),
         )
       ],
       child: MaterialApp(

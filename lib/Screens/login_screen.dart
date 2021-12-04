@@ -2,9 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:sage/Providers/google_auth_provider.dart';
-import 'package:sage/Services/google_sign_in_Api.dart';
-
-import 'home_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -23,7 +20,7 @@ class _LoginScreenState extends State<LoginScreen> {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Center(
+              const Center(
                 child: Text(
                   'Sage',
                   style: TextStyle(fontSize: 40, color: Colors.white),
@@ -55,7 +52,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   style: TextStyle(fontSize: 15, color: Colors.white),
                 ),
                 style: ButtonStyle(
-                  padding: MaterialStateProperty.all(EdgeInsets.all(12.0)),
+                  padding:
+                      MaterialStateProperty.all(const EdgeInsets.all(12.0)),
                   shape: MaterialStateProperty.all(
                     RoundedRectangleBorder(
                       side: const BorderSide(color: Colors.white),

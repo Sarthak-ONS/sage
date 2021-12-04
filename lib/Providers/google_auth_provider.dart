@@ -9,6 +9,11 @@ class GoogleAuthpProvider extends ChangeNotifier {
 
   GoogleSignInAccount get user => _googleSignInAccount!;
 
+  String? name;
+  String? uid;
+  String? email;
+  String? photoUrl;
+
   Future signInwithGoogle() async {
     try {
       final googleUserTemp = await googleSignin.signIn();
@@ -34,5 +39,18 @@ class GoogleAuthpProvider extends ChangeNotifier {
   Future logout() async {
     FirebaseAuth.instance.signOut();
     googleSignin.disconnect();
+  }
+
+  Future changeCurrentUserDetails({email, uid, photoUrl, name}) async {
+    try {
+      this.email = email;
+      this.uid = uid;
+      this.photoUrl = photoUrl;
+      this.name = name;
+      notifyListeners();
+    } catch (e) {
+      print("Error Receiving From ChangeCurrentUserDetails");
+      print(e);
+    }
   }
 }
