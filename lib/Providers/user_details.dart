@@ -5,11 +5,17 @@ class UserData extends ChangeNotifier {
   String? currentUserEmail;
   String? userPhotoUrl;
   String? uID;
-  changeUserDetails(String? name, String? url, String? email, String? userID) {
+  String? userIDToken;
+  String? userAccessToken;
+  changeUserDetails(String? name, String? url, String? email, String? userID,
+      String idtoken, String accessToken) {
     currentUserName = name;
     currentUserEmail = email;
     userPhotoUrl = url;
     uID = userID;
+    userIDToken = idtoken;
+    userAccessToken = accessToken;
+
     notifyListeners();
   }
 }
