@@ -16,23 +16,22 @@ class _HomeTabState extends State<HomeTab> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: const Color(0xff0A0A0A),
       body: ListView(
-        padding: EdgeInsets.symmetric(horizontal: 10.0),
+        padding: const EdgeInsets.symmetric(horizontal: 10.0),
         children: [
           buildTrendingWidget(),
           const SizedBox(
-            height: 15.0,
+            height: 10.0,
           ),
           Container(
-            height: 180,
+            height: 160,
             color: Colors.black,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const MovieTypeContainerHeading(
-                  title: 'Top-Rated Movies',
-                ),
+                SectionHeadingButton(
+                    title: "Top-Rated Movies", callBack: () {}),
                 Container(
                   height: 120,
                   color: Colors.black,
@@ -87,14 +86,16 @@ class _HomeTabState extends State<HomeTab> {
             ),
           ),
           Container(
-            height: 180,
+            height: 160,
             color: Colors.black,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const MovieTypeContainerHeading(
-                  title: "Action Movies",
-                ),
+                SectionHeadingButton(
+                    title: "Action Movies",
+                    callBack: () {
+                      print("Heading Towars Section Heading Action Movies");
+                    }),
                 Container(
                   height: 120,
                   color: Colors.black,
@@ -155,6 +156,77 @@ class _HomeTabState extends State<HomeTab> {
                 )
               ],
             ),
+          ),
+          Container(
+            height: 160,
+            color: Colors.black,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SectionHeadingButton(
+                  title: "Horror Movies",
+                  callBack: () {},
+                ),
+                Container(
+                  height: 120,
+                  color: Colors.black,
+                  child: FutureBuilder(
+                    future: FirebaseFirestore.instance
+                        .collection('Movies')
+                        .limit(15)
+                        .get(),
+                    builder: (BuildContext context,
+                        AsyncSnapshot<QuerySnapshot> snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return Shimmer.fromColors(
+                          baseColor: Colors.grey[300]!,
+                          highlightColor: Colors.grey[100]!,
+                          child: Container(
+                            height: 100,
+                            width: 180,
+                            margin: const EdgeInsets.symmetric(horizontal: 6.0),
+                            decoration: BoxDecoration(
+                              color: Colors.black,
+                              borderRadius: BorderRadius.circular(15.0),
+                            ),
+                          ),
+                        );
+                      } else if (snapshot.hasError) {
+                        print(snapshot.error.toString() + "////////");
+                        return const Center(
+                          child: Text(
+                            'Please try again later',
+                            style: TextStyle(
+                              color: Colors.white,
+                            ),
+                          ),
+                        );
+                      } else {
+                        print(snapshot.data!.docs.length);
+
+                        return ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          itemCount: snapshot.data!.docs.length,
+                          itemBuilder: (context, index) {
+                            print(snapshot.data!.docs.length);
+                            List tags = snapshot.data!.docs[index]['tags'];
+                            if (tags.contains("horror") == false) {
+                              return Container();
+                            }
+                            return BuildMovieCard(
+                              movieID: snapshot.data!.docs[index]['movieID'],
+                              movieName: snapshot.data!.docs[index]['name'],
+                              thumbnail: snapshot.data!.docs[index]
+                                  ['thumbnail'],
+                            );
+                          },
+                        );
+                      }
+                    },
+                  ),
+                )
+              ],
+            ),
           )
         ],
       ),
@@ -183,17 +255,21 @@ class _HomeTabState extends State<HomeTab> {
                   enlargeCenterPage: false,
                   viewportFraction: 1),
               itemBuilder: (context, index, realIdx) {
-                return Container(
-                  height: 200,
-                  width: MediaQuery.of(context).size.width - 20,
-                  child: Text(snapshot.data!.docs.length.toString()),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20.0),
-                    color: Colors.red,
-                    image: DecorationImage(
-                      fit: BoxFit.fill,
-                      image: NetworkImage(
-                        snapshot.data!.docs[index]['thumbnail'],
+                return Banner(
+                  message: '#${index + 1}',
+                  location: BannerLocation.topEnd,
+                  child: Container(
+                    height: 200,
+                    width: MediaQuery.of(context).size.width - 20,
+                    child: Text(snapshot.data!.docs.length.toString()),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10.0),
+                      color: Colors.red,
+                      image: DecorationImage(
+                        fit: BoxFit.fill,
+                        image: NetworkImage(
+                          snapshot.data!.docs[index]['thumbnail'],
+                        ),
                       ),
                     ),
                   ),
@@ -202,6 +278,48 @@ class _HomeTabState extends State<HomeTab> {
             ),
           );
         },
+      ),
+    );
+  }
+}
+
+class SectionHeadingButton extends StatelessWidget {
+  const SectionHeadingButton(
+      {Key? key, required this.title, required this.callBack})
+      : super(key: key);
+
+  final String? title;
+  final Function callBack;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        callBack();
+      },
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          MovieTypeContainerHeading(
+            title: title,
+          ),
+          Row(
+            children: const [
+              Text(
+                'View All',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 10,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              Icon(
+                Icons.arrow_right,
+                color: Colors.white,
+              )
+            ],
+          ),
+        ],
       ),
     );
   }
