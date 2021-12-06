@@ -1,6 +1,8 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:sage/Widgets/movie_card.dart';
+import 'package:sage/Widgets/movie_section_name.dart';
 import 'package:shimmer/shimmer.dart';
 
 class HomeTab extends StatefulWidget {
@@ -28,14 +30,8 @@ class _HomeTabState extends State<HomeTab> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
-                  'Top-Rated Movies',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                    fontFamily: 'Poppins',
-                    fontSize: 18,
-                  ),
+                const MovieTypeContainerHeading(
+                  title: 'Top-Rated Movies',
                 ),
                 Container(
                   height: 120,
@@ -96,22 +92,17 @@ class _HomeTabState extends State<HomeTab> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
-                  'Action Movies',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                    fontFamily: 'Poppins',
-                    fontSize: 18,
-                  ),
+                const MovieTypeContainerHeading(
+                  title: "Action Movies",
                 ),
                 Container(
-                  height: 153,
+                  height: 120,
                   color: Colors.black,
                   child: FutureBuilder(
                     future: FirebaseFirestore.instance
                         .collection('Movies')
-                        .where("tags", whereIn: ['action', 'thrilling']).get(),
+                        .limit(15)
+                        .get(),
                     builder: (BuildContext context,
                         AsyncSnapshot<QuerySnapshot> snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
@@ -129,6 +120,7 @@ class _HomeTabState extends State<HomeTab> {
                           ),
                         );
                       } else if (snapshot.hasError) {
+                        print(snapshot.error.toString() + "////////");
                         return const Center(
                           child: Text(
                             'Please try again later',
@@ -138,36 +130,22 @@ class _HomeTabState extends State<HomeTab> {
                           ),
                         );
                       } else {
+                        print(snapshot.data!.docs.length);
+
                         return ListView.builder(
                           scrollDirection: Axis.horizontal,
                           itemCount: snapshot.data!.docs.length,
                           itemBuilder: (context, index) {
                             print(snapshot.data!.docs.length);
-                            return GestureDetector(
-                              onTap: () {
-                                print(snapshot.data!.docs.length);
-                              },
-                              child: Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 12.0),
-                                child: Container(
-                                  height: 70,
-                                  width: 180,
-                                  margin: const EdgeInsets.symmetric(
-                                    horizontal: 6.0,
-                                  ),
-                                  decoration: BoxDecoration(
-                                    //  color: Colors.black,
-                                    borderRadius: BorderRadius.circular(15.0),
-                                    image: DecorationImage(
-                                      image: NetworkImage(
-                                        snapshot.data!.docs[index]['thumbnail'],
-                                      ),
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),
-                                ),
-                              ),
+                            List tags = snapshot.data!.docs[index]['tags'];
+                            if (tags.contains("action") == false) {
+                              return Container();
+                            }
+                            return BuildMovieCard(
+                              movieID: snapshot.data!.docs[index]['movieID'],
+                              movieName: snapshot.data!.docs[index]['name'],
+                              thumbnail: snapshot.data!.docs[index]
+                                  ['thumbnail'],
                             );
                           },
                         );
@@ -224,46 +202,6 @@ class _HomeTabState extends State<HomeTab> {
             ),
           );
         },
-      ),
-    );
-  }
-}
-
-class BuildMovieCard extends StatelessWidget {
-  const BuildMovieCard(
-      {Key? key,
-      required this.movieID,
-      required this.movieName,
-      required this.thumbnail})
-      : super(key: key);
-
-  final String movieID;
-  final String thumbnail;
-  final String movieName;
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        print(movieID);
-      },
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 12.0),
-        child: Container(
-          height: 70,
-          width: 150,
-          margin: const EdgeInsets.symmetric(
-            horizontal: 6.0,
-          ),
-          decoration: BoxDecoration(
-            //  color: Colors.black,
-            borderRadius: BorderRadius.circular(15.0),
-            image: DecorationImage(
-              image: NetworkImage(thumbnail),
-              fit: BoxFit.cover,
-            ),
-          ),
-        ),
       ),
     );
   }
