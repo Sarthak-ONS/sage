@@ -28,7 +28,7 @@ class _HomeScreenState extends State<HomeScreen>
 
   setMovieDoc() {
     FirebaseFirestore.instance.collection('Movies').add({
-      "name": "The Haunted",
+      "name": "Insidious",
       "movieID": "",
       "actors": [
         "Vicky Kaushal",
@@ -36,18 +36,19 @@ class _HomeScreenState extends State<HomeScreen>
         "Jhanvi Kapoor",
       ],
       "description":
-          "Films — Kaushal rose to prominence in 2018 with supporting roles in Raazi and Sanju, two of the highest-grossing Hindi films of the year. For the latter, he ..Films — Kaushal rose to prominence in 2018 with supporting roles in Raazi and Sanju, two of the highest-grossing Hindi films of the year. For the latter, he ..",
+          "Action film is a film genre in which the protagonist or protagonists are thrust into a series of events that typically include violence, extended fighting, physical feats, rescues and frantic chases. Action film is a film genre in which the protagonist or protagonists are thrust into a series of events that typically include violence, extended fighting, physical feats, rescues and frantic chases.",
       "duration": 169,
-      "ratings": 9.8,
+      "ratings": 8.7,
       "tags": [
         "horror",
         "adventureous",
         "Comedy",
+        "action",
       ],
       "link": "www.google.com",
       "thumbnail":
-          "https://images.pexels.com/photos/10399171/pexels-photo-10399171.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
-      "yearOfRelease": "2021"
+          "https://images.pexels.com/photos/3062541/pexels-photo-3062541.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
+      "yearOfRelease": "2020"
     });
   }
 
@@ -63,11 +64,11 @@ class _HomeScreenState extends State<HomeScreen>
               Provider.of<GoogleAuthpProvider>(context, listen: false).name,
             );
           },
-          backgroundColor: const Color(0xffC43030),
+          backgroundColor: const Color(0xff19232E),
           label: const Text('Search'),
           icon: const Icon(Icons.search),
         ),
-        backgroundColor: const Color(0xff0A0A0A),
+        backgroundColor: const Color(0xff19232E),
         // appBar: buildAppBar(context),
         endDrawer: const Drawer(
           elevation: 20,
@@ -96,7 +97,7 @@ class _HomeScreenState extends State<HomeScreen>
                   ),
                 ],
               ),
-              backgroundColor: Colors.black,
+              backgroundColor: const Color(0xff19232E),
               // pinned: true,
               snap: true,
               floating: true,

@@ -2,7 +2,8 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:sage/Widgets/movie_card.dart';
-import 'package:sage/Widgets/movie_section_name.dart';
+import 'package:sage/Widgets/section_heading_button.dart';
+import 'package:sage/private_variable.dart';
 import 'package:shimmer/shimmer.dart';
 
 class HomeTab extends StatefulWidget {
@@ -16,7 +17,7 @@ class _HomeTabState extends State<HomeTab> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xff0A0A0A),
+      backgroundColor: const Color(0xff0F171E),
       body: ListView(
         padding: const EdgeInsets.symmetric(horizontal: 10.0),
         children: [
@@ -26,7 +27,7 @@ class _HomeTabState extends State<HomeTab> {
           ),
           Container(
             height: 160,
-            color: Colors.black,
+            color: const Color(0xff0F171E),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -34,7 +35,7 @@ class _HomeTabState extends State<HomeTab> {
                     title: "Top-Rated Movies", callBack: () {}),
                 Container(
                   height: 120,
-                  color: Colors.black,
+                  color: const Color(0xff0F171E),
                   child: FutureBuilder(
                     future: FirebaseFirestore.instance
                         .collection('Movies')
@@ -51,7 +52,7 @@ class _HomeTabState extends State<HomeTab> {
                             width: 180,
                             margin: const EdgeInsets.symmetric(horizontal: 6.0),
                             decoration: BoxDecoration(
-                              color: Colors.black,
+                              color: const Color(0xff0F171E),
                               borderRadius: BorderRadius.circular(15.0),
                             ),
                           ),
@@ -86,8 +87,45 @@ class _HomeTabState extends State<HomeTab> {
             ),
           ),
           Container(
+            height: 180,
+            color: const Color(0xff0F171E),
+            child: Column(
+              children: [
+                SectionHeadingButton(
+                    title: "Watch in Your Language", callBack: () {}),
+                SizedBox(
+                  height: 8,
+                ),
+                Container(
+                  height: 135,
+                  child: ListView.separated(
+                    scrollDirection: Axis.horizontal,
+                    itemBuilder: (context, index) => Container(
+                      height: 120,
+                      width: 130,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8),
+                        image: DecorationImage(
+                          fit: BoxFit.fill,
+                          image: NetworkImage(
+                            listOfImages[index],
+                            scale: 0.5,
+                          ),
+                        ),
+                      ),
+                    ),
+                    separatorBuilder: (context, index) => const SizedBox(
+                      width: 8,
+                    ),
+                    itemCount: 6,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Container(
             height: 160,
-            color: Colors.black,
+            color: const Color(0xff0F171E),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -98,7 +136,7 @@ class _HomeTabState extends State<HomeTab> {
                     }),
                 Container(
                   height: 120,
-                  color: Colors.black,
+                  color: const Color(0xff0F171E),
                   child: FutureBuilder(
                     future: FirebaseFirestore.instance
                         .collection('Movies')
@@ -115,7 +153,7 @@ class _HomeTabState extends State<HomeTab> {
                             width: 180,
                             margin: const EdgeInsets.symmetric(horizontal: 6.0),
                             decoration: BoxDecoration(
-                              color: Colors.black,
+                              color: const Color(0xff0F171E),
                               borderRadius: BorderRadius.circular(15.0),
                             ),
                           ),
@@ -159,7 +197,7 @@ class _HomeTabState extends State<HomeTab> {
           ),
           Container(
             height: 160,
-            color: Colors.black,
+            color: const Color(0xff0F171E),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -169,7 +207,7 @@ class _HomeTabState extends State<HomeTab> {
                 ),
                 Container(
                   height: 120,
-                  color: Colors.black,
+                  color: const Color(0xff0F171E),
                   child: FutureBuilder(
                     future: FirebaseFirestore.instance
                         .collection('Movies')
@@ -186,7 +224,7 @@ class _HomeTabState extends State<HomeTab> {
                             width: 180,
                             margin: const EdgeInsets.symmetric(horizontal: 6.0),
                             decoration: BoxDecoration(
-                              color: Colors.black,
+                              color: const Color(0xff0F171E),
                               borderRadius: BorderRadius.circular(15.0),
                             ),
                           ),
@@ -258,6 +296,7 @@ class _HomeTabState extends State<HomeTab> {
                 return Banner(
                   message: '#${index + 1}',
                   location: BannerLocation.topEnd,
+                  color: const Color(0xff00A8E1),
                   child: Container(
                     height: 200,
                     width: MediaQuery.of(context).size.width - 20,
@@ -278,48 +317,6 @@ class _HomeTabState extends State<HomeTab> {
             ),
           );
         },
-      ),
-    );
-  }
-}
-
-class SectionHeadingButton extends StatelessWidget {
-  const SectionHeadingButton(
-      {Key? key, required this.title, required this.callBack})
-      : super(key: key);
-
-  final String? title;
-  final Function callBack;
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        callBack();
-      },
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          MovieTypeContainerHeading(
-            title: title,
-          ),
-          Row(
-            children: const [
-              Text(
-                'View All',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 10,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-              Icon(
-                Icons.arrow_right,
-                color: Colors.white,
-              )
-            ],
-          ),
-        ],
       ),
     );
   }
