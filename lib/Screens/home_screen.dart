@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:sage/Providers/google_auth_provider.dart';
+import 'package:sage/Providers/user_details.dart';
 import 'package:sage/Screens/Tabs/home_tab.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -52,10 +53,19 @@ class _HomeScreenState extends State<HomeScreen>
     });
   }
 
+  TextStyle ktextStyleForListTile = const TextStyle(
+    fontWeight: FontWeight.w300,
+    color: Colors.white,
+    letterSpacing: 0.5,
+  );
+
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        key: _scaffoldKey,
         floatingActionButton: FloatingActionButton.extended(
           onPressed: () {
             //TODO: Add Search Feature
@@ -70,8 +80,81 @@ class _HomeScreenState extends State<HomeScreen>
         ),
         backgroundColor: const Color(0xff19232E),
         // appBar: buildAppBar(context),
-        endDrawer: const Drawer(
+        endDrawer: Drawer(
           elevation: 20,
+          child: Container(
+            color: const Color(0xff19232E),
+            child: Column(
+              children: [
+                UserAccountsDrawerHeader(
+                  accountName: Text(
+                    Provider.of<GoogleAuthpProvider>(context).name!,
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      letterSpacing: 0.5,
+                    ),
+                  ),
+                  accountEmail: null,
+                  currentAccountPicture: CircleAvatar(
+                    foregroundImage: NetworkImage(
+                      Provider.of<GoogleAuthpProvider>(context).photoUrl!,
+                    ),
+                  ),
+                  otherAccountsPictures: [
+                    CircleAvatar(
+                      foregroundImage: NetworkImage(
+                        Provider.of<GoogleAuthpProvider>(context).photoUrl!,
+                      ),
+                    ),
+                    CircleAvatar(
+                      foregroundImage: NetworkImage(
+                        Provider.of<GoogleAuthpProvider>(context).photoUrl!,
+                      ),
+                    ),
+                    CircleAvatar(
+                      foregroundImage: NetworkImage(
+                        Provider.of<GoogleAuthpProvider>(context).photoUrl!,
+                      ),
+                    )
+                  ],
+                  decoration: const BoxDecoration(color: Color(0xff19232E)),
+                ),
+                const Divider(
+                  color: Colors.white,
+                ),
+                ListTile(
+                  title: Text(
+                    "Watch List",
+                    style: ktextStyleForListTile,
+                  ),
+                ),
+                ListTile(
+                  title: Text(
+                    "Manage Profile",
+                    style: ktextStyleForListTile,
+                  ),
+                ),
+                ListTile(
+                  title: Text(
+                    "Manage Profile",
+                    style: ktextStyleForListTile,
+                  ),
+                ),
+                ListTile(
+                  title: Text(
+                    "Accounts Settings",
+                    style: ktextStyleForListTile,
+                  ),
+                ),
+                ListTile(
+                  title: Text(
+                    "Signout",
+                    style: ktextStyleForListTile,
+                  ),
+                ),
+              ],
+            ),
+          ),
         ),
         body: CustomScrollView(
           slivers: [
@@ -106,7 +189,7 @@ class _HomeScreenState extends State<HomeScreen>
               actions: [
                 GestureDetector(
                   onTap: () {
-                    Scaffold.of(context).openEndDrawer();
+                    _scaffoldKey.currentState!.openEndDrawer();
                   },
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),

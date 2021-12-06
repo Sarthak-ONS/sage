@@ -21,10 +21,12 @@ class _HomeTabState extends State<HomeTab> {
       body: ListView(
         padding: const EdgeInsets.symmetric(horizontal: 10.0),
         children: [
+          //Trending MOvies
           buildTrendingWidget(),
           const SizedBox(
             height: 10.0,
           ),
+          //Continaer For Top-Rated Movies
           Container(
             height: 160,
             color: const Color(0xff0F171E),
@@ -86,6 +88,7 @@ class _HomeTabState extends State<HomeTab> {
               ],
             ),
           ),
+          //Container For Watch in your Language
           Container(
             height: 180,
             color: const Color(0xff0F171E),
@@ -93,10 +96,10 @@ class _HomeTabState extends State<HomeTab> {
               children: [
                 SectionHeadingButton(
                     title: "Watch in Your Language", callBack: () {}),
-                SizedBox(
+                const SizedBox(
                   height: 8,
                 ),
-                Container(
+                SizedBox(
                   height: 135,
                   child: ListView.separated(
                     scrollDirection: Axis.horizontal,
@@ -123,6 +126,7 @@ class _HomeTabState extends State<HomeTab> {
               ],
             ),
           ),
+          // Container For Action Movies
           Container(
             height: 160,
             color: const Color(0xff0F171E),
@@ -195,6 +199,7 @@ class _HomeTabState extends State<HomeTab> {
               ],
             ),
           ),
+          //Container For Horror Movies
           Container(
             height: 160,
             color: const Color(0xff0F171E),
